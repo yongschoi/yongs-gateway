@@ -1,0 +1,133 @@
+spring:
+  profiles:
+    active: window-dev
+
+---
+server:
+  port : 8080
+
+logging:
+  level:
+    yongs:
+      temp: DEBUG
+  
+spring:
+  profiles: window-dev
+  application:
+    name: yongs-gateway
+         
+eureka:
+  instance:
+    preferIpAddress: true
+    hostname: localhost
+  client:
+    registerWithEureka: true
+    healthcheck:
+      enabled: true
+    fetchRegistry: true
+    enabled: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+
+zuul:
+  ignored-services: "*"
+  prefix: /gateway
+  routes:
+    yongs-main:
+      path: /main/**
+      serviceId: yongs-main
+      stripPrefix: false
+    yongs-order:
+      path: /order/**
+      serviceId: yongs-order
+      stripPrefix: false
+  ribbonIsolationStrategy: THREAD
+  threadPool:
+    useSeparateThreadPools: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+
+ribbon: 
+    eureka:
+      enabled: true
+    NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
+    ConnectTimeout: 30000
+    ReadTimeout: 30000
+    MaxTotalHttpConnections: 500
+    MaxConnectionsPerHost: 100
+       
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        
+---
+server:
+  port : 8080
+
+logging:
+  level:
+    yongs:
+      temp: DEBUG
+
+spring:
+  profiles: docker-dev
+  application:
+    name: yongs-gateway
+         
+eureka:
+  instance:
+    preferIpAddress: true
+    hostname: eureka-server
+  client:
+    registerWithEureka: true 
+    fetchRegistry: true
+    enabled: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+      
+zuul:
+  ignored-services: "*"
+  prefix: /gateway
+  routes:
+    yongs-main:
+      path: /main/**
+      serviceId: yongs-main
+      stripPrefix: false
+    yongs-order:
+      path: /order/**
+      serviceId: yongs-order
+      stripPrefix: false
+  ribbonIsolationStrategy: THREAD
+  threadPool:
+    useSeparateThreadPools: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+
+ribbon: 
+    eureka:
+      enabled: true
+    NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
+    ConnectTimeout: 30000
+    ReadTimeout: 30000
+    MaxTotalHttpConnections: 500
+    MaxConnectionsPerHost: 100
+     
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" 
