@@ -12,7 +12,10 @@
         </layout>
       </encoder>
     </appender>
-    
+
+    <logger name="root" level="ERROR">
+    	<appender-ref ref="stdout" />
+    </logger>    
     <logger name="yongs.temp" level="DEBUG">
     	<appender-ref ref="stdout" />
     </logger>
