@@ -31,7 +31,7 @@ eureka:
 
 zuul:
   ignored-services: "*"
-  prefix: /gateway
+  prefix: /
   routes:
     yongs-main:
       path: /main/**
