@@ -15,5 +15,4 @@ public class YongsGatewayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(YongsGatewayApplication.class, args);
 	}
-
 }

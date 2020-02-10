@@ -4,42 +4,54 @@ spring:
 
 ---
 server:
-  port: 8080
+  port: 8082
 
 logging:
   level:
     yongs:
       temp: DEBUG
+    com:
+      netflix:
+        eureka: OFF
+        discovery: OFF
   
 spring:
   profiles: window-dev
   application:
     name: yongs-gateway
-         
+    
 eureka:
   instance:
     preferIpAddress: true
     hostname: localhost
   client:
-    registerWithEureka: true
-    healthcheck:
-      enabled: true
-    fetchRegistry: true
     enabled: true
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/  
 
 zuul:
   ignored-services: "*"
   prefix: /
   routes:
-    yongs-main:
-      path: /main/**
-      serviceId: yongs-main
+    any:
+      path: /any/**
+      serviceId: yongs-user
       stripPrefix: false
-    yongs-order:
-      path: /order/**
-      serviceId: yongs-order
+    user:
+      path: /user/**
+      serviceId: yongs-user
+      stripPrefix: false
+    file:
+      path: /file/**
+      serviceId: yongs-file
+      stripPrefix: false
+    album:
+      path: /album/**
+      serviceId: yongs-file
+      stripPrefix: false
+    stock:
+      path: /stock/**
+      serviceId: yongs-stock
       stripPrefix: false
   ribbonIsolationStrategy: THREAD
   threadPool:
@@ -51,14 +63,14 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 30000
+            timeoutInMilliseconds: 3000
 
 ribbon: 
     eureka:
       enabled: true
     NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
-    ConnectTimeout: 30000
-    ReadTimeout: 30000
+    ConnectTimeout: 2000
+    ReadTimeout: 3000
     MaxTotalHttpConnections: 500
     MaxConnectionsPerHost: 100
        
@@ -68,66 +80,3 @@ management:
       exposure:
         include: "*"
         
----
-server:
-  port: 8080
-
-logging:
-  level:
-    yongs:
-      temp: DEBUG
-
-spring:
-  profiles: docker-dev
-  application:
-    name: yongs-gateway
-         
-eureka:
-  instance:
-    preferIpAddress: true
-    hostname: eureka-server
-  client:
-    registerWithEureka: true 
-    fetchRegistry: true
-    enabled: true
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
-      
-zuul:
-  ignored-services: "*"
-  prefix: /
-  routes:
-    yongs-main:
-      path: /main/**
-      serviceId: yongs-main
-      stripPrefix: false
-    yongs-order:
-      path: /order/**
-      serviceId: yongs-order
-      stripPrefix: false
-  ribbonIsolationStrategy: THREAD
-  threadPool:
-    useSeparateThreadPools: true
-
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 30000
-
-ribbon: 
-    eureka:
-      enabled: true
-    NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
-    ConnectTimeout: 30000
-    ReadTimeout: 30000
-    MaxTotalHttpConnections: 500
-    MaxConnectionsPerHost: 100
-     
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*" 
