@@ -53,6 +53,10 @@ zuul:
       path: /stock/**
       serviceId: yongs-stock
       stripPrefix: false
+    order:
+      path: /order/**
+      serviceId: yongs-order
+      stripPrefix: false
   ribbonIsolationStrategy: THREAD
   threadPool:
     useSeparateThreadPools: true
