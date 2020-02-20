@@ -57,6 +57,10 @@ zuul:
       path: /order/**
       serviceId: yongs-order
       stripPrefix: false
+    delivery:
+      path: /delivery/**
+      serviceId: yongs-delivery
+      stripPrefix: false
   ribbonIsolationStrategy: THREAD
   threadPool:
     useSeparateThreadPools: true
