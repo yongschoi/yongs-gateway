@@ -13,13 +13,18 @@ logging:
     com:
       netflix:
         eureka: OFF
-        discovery: OFF
+        discovery: OFF  
   
 spring:
   profiles: window-dev
   application:
     name: yongs-gateway
-    
+  sleuth:
+    sampler:
+      probability: 1
+  zipkin:
+    baseUrl: http://localhost:9411/
+
 eureka:
   instance:
     preferIpAddress: true
@@ -27,8 +32,8 @@ eureka:
   client:
     enabled: true
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/  
-
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+      
 zuul:
   ignored-services: "*"
   prefix: /
@@ -73,18 +78,17 @@ hystrix:
           thread:
             timeoutInMilliseconds: 3000
 
-ribbon: 
-    eureka:
-      enabled: true
-    NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
-    ConnectTimeout: 2000
-    ReadTimeout: 3000
-    MaxTotalHttpConnections: 500
-    MaxConnectionsPerHost: 100
+ribbon:
+  eureka:
+    enabled: true
+  NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
+  ConnectTimeout: 2000
+  ReadTimeout: 3000
+  MaxTotalHttpConnections: 500
+  MaxConnectionsPerHost: 100
        
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-        
