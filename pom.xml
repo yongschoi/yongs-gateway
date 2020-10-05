@@ -25,11 +25,13 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-sleuth</artifactId>
 		</dependency>
-		<!-- Zipkin -->
+
+		<!-- Zipkin 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-zipkin</artifactId>
 		</dependency>
+		-->
 			
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -69,7 +71,8 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
-		</dependency>				
+		</dependency>	
+					
 		<!-- Actuator : Zuul 혹은 Hystrix 모듈과 함께 설치하여  hystrix.stream을 모니터링 할 수 있음-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
