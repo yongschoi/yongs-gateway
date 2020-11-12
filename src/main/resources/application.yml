@@ -98,3 +98,100 @@ management:
     web:
       exposure:
         include: "*"
+        
+---
+server:
+  port: 8082
+
+logging:
+  level:
+    yongs:
+      temp: INFO
+    com:
+      netflix:
+        eureka: OFF
+        discovery: OFF  
+  
+spring:
+  profiles: container
+  application:
+    name: yongs-gateway
+  sleuth:
+    sampler:
+      probability: 1
+  zipkin:
+    baseUrl: http://zipkin:9411/
+
+eureka:
+  instance:
+    preferIpAddress: true
+    hostname: eureka
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    enabled: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+      
+zuul:
+  ignored-services: "*"
+  prefix: /
+  routes:
+    any:
+      path: /any/**
+      serviceId: yongs-user
+      stripPrefix: false
+    user:
+      path: /user/**
+      serviceId: yongs-user
+      stripPrefix: false
+    file:
+      path: /file/**
+      serviceId: yongs-file
+      stripPrefix: false
+    album:
+      path: /album/**
+      serviceId: yongs-file
+      stripPrefix: false
+    stock:
+      path: /stock/**
+      serviceId: yongs-stock
+      stripPrefix: false
+    order:
+      path: /order/**
+      serviceId: yongs-order
+      stripPrefix: false
+    delivery:
+      path: /delivery/**
+      serviceId: yongs-delivery
+      stripPrefix: false
+    product:
+      path: /product/**
+      serviceId: yongs-product
+      stripPrefix: false
+  ribbonIsolationStrategy: THREAD
+  threadPool:
+    useSeparateThreadPools: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+any:
+  ribbon:
+    eureka:
+      enabled: true
+    NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
+    ConnectTimeout: 2000
+    ReadTimeout: 3000
+    MaxTotalHttpConnections: 500
+    MaxConnectionsPerHost: 100
+       
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
